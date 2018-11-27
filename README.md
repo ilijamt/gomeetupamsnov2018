@@ -18,3 +18,4 @@ Oracle
 Jan Evertsenstraat 761, 1061 XZ · Amsterdam
 
 #### Subject
+Automatic collection of prometheus metrics, cadvisor and grafana in Docker Swarm
