@@ -1,0 +1,64 @@
+version: "3"
+
+networks:
+  monitoring:
+  api:
+
+services:
+  demo_service_v1:
+    image: gomeetup-demo-v1:latest
+    deploy:
+      mode: replicated
+      replicas: 6
+    networks:
+      - monitoring
+      - api
+  demo_service_v2:
+    image: gomeetup-demo-v2:latest
+    deploy:
+      mode: replicated
+      replicas: 4
+    networks:
+      - monitoring
+      - api
+  cadvisor:
+    image: google/cadvisor:latest
+    deploy:
+      mode: global
+    ports:
+      - "8080:8080"
+    volumes:
+      - /var/lib/docker/:/var/lib/docker
+      - /dev/disk/:/dev/disk
+      - /sys:/sys
+      - /var/run:/var/run
+      - /:/rootfs
+      - /dev/zfs:/dev/zfs
+    networks:
+      - monitoring
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data/grafana:/var/lib/grafana:rw
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    networks:
+      - monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./data/prometheus:/prometheus:rw
+    deploy:
+      mode: replicated
+      replicas: 1
+    networks:
+      - monitoring
