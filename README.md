@@ -20,4 +20,6 @@ Jan Evertsenstraat 761, 1061 XZ · Amsterdam
 #### Subject
 Automatic collection of prometheus metrics, cadvisor and grafana in Docker Swarm
 
+#### Links
+[Automatic collection of prometheus metrics, cadvisor and grafana in Docker Swarm](https://matoski.com/article/golang-prometheus-cadvisor-grafana/)
 [Link to the presentation](https://goo.gl/chuhTi)
